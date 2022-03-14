@@ -4,14 +4,14 @@ import java.util.StringJoiner;
  * @author yaotailin
  */
 public class ArrayStack<E> implements Stack<E> {
-    private Array array;
+    private final Array<E> array;
 
     public ArrayStack(int capacity) {
-        array = new Array(capacity);
+        array = new Array<>(capacity);
     }
 
     public ArrayStack() {
-        array = new Array();
+        array = new Array<>();
     }
 
     @Override
@@ -31,12 +31,12 @@ public class ArrayStack<E> implements Stack<E> {
 
     @Override
     public E pop() {
-        return (E) array.removeLast();
+        return array.removeLast();
     }
 
     @Override
     public E peek() {
-        return (E) array.getLast();
+        return array.getLast();
     }
 
     public int getCapacity() {
