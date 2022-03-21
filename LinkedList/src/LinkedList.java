@@ -26,11 +26,11 @@ public class LinkedList<E> {
         }
     }
 
-    private Node head;
+    private final Node dummyHead;
     private int size;
 
     public LinkedList() {
-        head = null;
+        dummyHead = new Node(null, null);
         size = 0;
     }
 
@@ -42,33 +42,29 @@ public class LinkedList<E> {
         return size == 0;
     }
 
-    public void addFirst(E e) {
-//        Node node = new Node(e);
-//        node.next = head;
-//        head =node;
-        head = new Node(e, head);
-        size++;
-    }
 
     private void add(int index, E e) {
         if (index < 0 || index > size) {
             throw new IllegalArgumentException("Illegal index.");
         }
-        if (size == 0) {
-            addFirst(e);
-        } else {
-            Node pre = head;
-            for (int i = 0; i < index - 1; i++) {
-                pre = pre.next;
-            }
+
+        Node pre = dummyHead;
+        for (int i = 0; i < index; i++) {
+            pre = pre.next;
+        }
 //            Node node = new Node(e);
 //            node.next = pre.next;
 //            pre.next = node;
 
-            pre.next = new Node(e, pre.next);
-            size++;
-        }
+        pre.next = new Node(e, pre.next);
+        size++;
+
     }
+
+    public void addFirst(E e) {
+        add(0, e);
+    }
+
 
     public void addLast(E e) {
         add(size, e);
