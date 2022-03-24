@@ -73,7 +73,6 @@ public class LinkedListQueue<E> implements Queue<E> {
     }
 
 
-
     @Override
     public int getSize() {
         return size;
