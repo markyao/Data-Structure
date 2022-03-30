@@ -1,6 +1,6 @@
 import java.util.Stack;
 
-public class Solution {
+public class Solution20 {
 
     public boolean isValid(String s) {
 
@@ -27,5 +27,10 @@ public class Solution {
             }
         }
         return stack.isEmpty();
+    }
+
+    public static void main(String[] args) {
+        Solution20 solution20 = new Solution20();
+        System.out.println(solution20.isValid("()[]{}"));
     }
 }
