@@ -1,4 +1,4 @@
-class Solution2 {
+class Solution203_2 {
     public ListNode removeElements(ListNode head, int val) {
         ListNode dummyHead = new ListNode(-1);
         dummyHead.next = head;

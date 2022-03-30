@@ -1,4 +1,4 @@
-class Solution {
+class Solution203 {
     public ListNode removeElements(ListNode head, int val) {
         if (head == null) {
             return null;
@@ -29,7 +29,7 @@ class Solution {
         int[] nums = {1, 2, 6, 3, 4, 5, 6};
         ListNode head = new ListNode(nums);
         System.out.println(head);
-        ListNode res = (new Solution()).removeElements(head, 6);
+        ListNode res = (new Solution203()).removeElements(head, 6);
         System.out.println(res);
     }
 }
