@@ -1,3 +1,4 @@
+
 public class BST<E extends Comparable<E>> {
 
     private class Node<E> {
@@ -62,11 +63,39 @@ public class BST<E extends Comparable<E>> {
         return node;
     }
 
+    public boolean contanis(E e) {
+        return getNode(root, e) != null ? true : false;
+    }
+
+    private Node getNode(Node<E> node, E e) {
+        if (node == null) {
+            return null;
+        }
+        if (e.compareTo(node.e) == 0) {
+            return node;
+        }
+        if (e.compareTo(node.e) < 0) {
+            node = getNode(node.left, e);
+        } else {
+            //if (e.compareTo(node.e) > 0) {
+            node = getNode(node.right, e);
+        }
+        return node;
+    }
+
     public int getSize() {
         return size;
     }
 
     public boolean isEmpty() {
         return size == 0;
+    }
+
+    public static void main(String[] args) {
+        BST<Integer> bst = new BST<>();
+        bst.add(10);
+        bst.add(7);
+        bst.add(16);
+        System.out.println(bst.contanis(10));
     }
 }
