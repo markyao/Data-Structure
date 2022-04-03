@@ -1,3 +1,7 @@
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
+
 public class BST<E extends Comparable<E>> {
 
     private class Node<E> {
@@ -96,6 +100,21 @@ public class BST<E extends Comparable<E>> {
         preOrder(node.right);
     }
 
+    public void preOrderNR() {
+        Stack<Node> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.empty()) {
+            Node node = stack.pop();
+            System.out.println(node.e);
+            if (node.right != null) {
+                stack.push(node.right);
+            }
+            if (node.left != null) {
+                stack.push(node.left);
+            }
+        }
+    }
+
     public void inOrder() {
         inOrder(root);
     }
@@ -122,7 +141,21 @@ public class BST<E extends Comparable<E>> {
         postOrder(node.left);
         postOrder(node.right);
         System.out.println(node.e);
+    }
 
+    public void levelOrder() {
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            Node cur = queue.remove();
+            System.out.println(cur.e);
+            if (cur.left != null) {
+                queue.add(cur.left);
+            }
+            if (cur.right != null) {
+                queue.add(cur.right);
+            }
+        }
     }
 
     @Override
@@ -166,8 +199,12 @@ public class BST<E extends Comparable<E>> {
         }
         bst.preOrder();
         System.out.println();
+        bst.preOrderNR();
+        System.out.println();
         bst.inOrder();
         System.out.println();
         bst.postOrder();
+        System.out.println();
+        bst.levelOrder();
     }
 }
