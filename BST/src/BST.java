@@ -25,6 +25,7 @@ public class BST<E extends Comparable<E>> {
 
     public void add(E e) {
         root = add(root, e);
+        size++;
     }
 
     /**
@@ -158,6 +159,80 @@ public class BST<E extends Comparable<E>> {
         }
     }
 
+    public E minimum() {
+        if (size == 0) {
+            throw new IllegalArgumentException("BST is empty");
+        }
+        return minimum(root).e;
+    }
+
+    /**
+     * 最小值
+     *
+     * @param node
+     * @return
+     */
+    private Node<E> minimum(Node<E> node) {
+        if (node.left == null) {
+            return node;
+        }
+        return minimum(node.left);
+    }
+
+    public E maximum() {
+        if (size == 0) {
+            throw new IllegalArgumentException("BST is empty");
+        }
+        return maximum(root).e;
+    }
+
+    /**
+     * 最大值
+     *
+     * @param node
+     * @return
+     */
+    private Node<E> maximum(Node<E> node) {
+        if (node.right == null) {
+            return node;
+        }
+        return maximum(node.right);
+    }
+
+    public E removeMin() {
+        E e = minimum();
+        root = removeMin(root);
+        return e;
+    }
+
+    private Node removeMin(Node<E> node) {
+        if (node.left == null) {
+            Node rightNode = node.right;
+            node.right = null;
+            size--;
+            return rightNode;
+        }
+        node.left = removeMin(node.left);
+        return node;
+    }
+
+    public E removeMax() {
+        E e = maximum();
+        root = removeMax(root);
+        return e;
+    }
+
+    private Node removeMax(Node<E> node) {
+        if (node.right == null) {
+            Node leftNode = node.left;
+            node.left = null;
+            size--;
+            return leftNode;
+        }
+        node.right = removeMax(node.right);
+        return node;
+    }
+
     @Override
     public String toString() {
         StringBuilder res = new StringBuilder();
@@ -205,6 +280,13 @@ public class BST<E extends Comparable<E>> {
         System.out.println();
         bst.postOrder();
         System.out.println();
+        bst.levelOrder();
+        System.out.println();
+        System.out.println(bst.minimum());
+        System.out.println(bst.maximum());
+        System.out.println();
+        System.out.println(bst.removeMin());
+        System.out.println(bst.removeMax());
         bst.levelOrder();
     }
 }
