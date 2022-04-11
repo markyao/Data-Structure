@@ -1,3 +1,6 @@
+/**
+ * @author yaotailin
+ */
 public class MaxHeap<E extends Comparable> {
 
     private Array<E> data;
@@ -31,5 +34,17 @@ public class MaxHeap<E extends Comparable> {
 
     private int rightChild(int index) {
         return index * 2 + 2;
+    }
+
+    public void add(E e) {
+        data.addLast(e);
+        shiftUp(data.getSize() - 1);
+    }
+
+    private void shiftUp(int k) {
+        while (k > 0 && data.get(k).compareTo(data.get(parent(k))) > 0) {
+            data.swap(k, parent(k));
+            k = parent(k);
+        }
     }
 }
