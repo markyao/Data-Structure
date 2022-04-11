@@ -47,4 +47,34 @@ public class MaxHeap<E extends Comparable> {
             k = parent(k);
         }
     }
+
+    public E findMax() {
+        if (data.getSize() == 0) {
+            throw new IllegalArgumentException("heap is empty");
+        }
+        return data.get(0);
+    }
+
+    public E extractMax() {
+        E ret = findMax();
+        data.swap(0, data.getSize() - 1);
+        data.removeLast();
+        shiftDown(0);
+        return ret;
+    }
+
+    private void shiftDown(int k) {
+        while (leftChild(k) < data.getSize()) {
+            int j = leftChild(k);
+            if (j + 1 < getSize() && data.get(j + 1).compareTo(data.get(j)) > 0) {
+                j = rightChild(k);
+            }
+            if (data.get(k).compareTo(data.get(j)) >= 0) {
+                break;
+            }
+            data.swap(k, j);
+            k = j;
+        }
+    }
+
 }
