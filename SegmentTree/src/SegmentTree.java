@@ -52,6 +52,46 @@ public class SegmentTree<E> {
         return 2 * index + 2;
     }
 
+    /**
+     * @param queryL
+     * @param queryR
+     * @return 返回区间[queryL, queryR]的值
+     */
+    public E query(int queryL, int queryR) {
+        if (queryL < 0 || queryL >= data.length || queryR < 0 || queryR >= data.length ||
+                queryL > queryR) {
+            throw new IllegalArgumentException("索引越界");
+        }
+        return query(0, 0, data.length-1, queryL, queryR);
+    }
+
+    /**
+     * 在以treeIndex为根的线段树中[l...r]的范围里搜索区间[queryL...queryR]的值
+     *
+     * @param treeIndex
+     * @param l
+     * @param r
+     * @param queryL
+     * @param queryR
+     * @return
+     */
+    private E query(int treeIndex, int l, int r, int queryL, int queryR) {
+        if (l == queryL && r == queryR) {
+            return tree[treeIndex];
+        }
+        int mid = l + (r - l) / 2;
+        int leftIndex = leftChild(treeIndex);
+        int rightIndex = rightChild(treeIndex);
+        if (queryL >= mid + 1) {
+            return query(rightIndex, mid + 1, r, queryL, queryR);
+        } else if (queryR <= mid) {
+            return query(leftIndex, l, mid, queryL, queryR);
+        }
+        E leftResult = query(leftIndex, l, mid, queryL, mid);
+        E rightResult = query(rightIndex, mid + 1, r, mid + 1, queryR);
+        return merger.merge(leftResult, rightResult);
+    }
+
     @Override
     public String toString() {
         StringJoiner joiner = new StringJoiner(",", "[", "]");
