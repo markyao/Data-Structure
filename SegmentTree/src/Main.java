@@ -8,6 +8,11 @@ public class Main {
         System.out.println(tree.query(0, 2));
         System.out.println(tree.query(2, 5));
         System.out.println(tree.query(0, 5));
+        tree.set(0,-4);
+        System.out.println(tree);
+        System.out.println(tree.query(0, 2));
+        System.out.println(tree.query(2, 5));
+        System.out.println(tree.query(0, 5));
 
     }
 }
