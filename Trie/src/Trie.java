@@ -41,6 +41,7 @@ public class Trie {
 
     /**
      * 查询是否在Trie中有单词以prefix为前缀
+     *
      * @param prefix
      * @return
      */
@@ -51,6 +52,7 @@ public class Trie {
             if (cur.next.get(c) == null) {
                 return false;
             }
+            cur = cur.next.get(c);
         }
         return true;
     }
@@ -72,5 +74,13 @@ public class Trie {
             this(false);
         }
     }
-
+    public static void main(String[] args) {
+        Trie trie  = new Trie();
+        trie.add("apple");
+        System.out.println(trie.contains("apple"));
+        System.out.println(trie.contains("app"));
+        System.out.println(trie.isPrefix("app"));
+        trie.add("app");
+        System.out.println(trie.contains("app"));
+    }
 }
