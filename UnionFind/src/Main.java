@@ -22,13 +22,15 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        int size = 100000;
-        int m = 100000;
-        UnionFind1 uf1 = new UnionFind1(size);
-        System.out.println("UUnionFind1: " + TestUF(uf1, m) + " s");
-        UnionFind2 uf2 = new UnionFind2(size);
-        System.out.println("UUnionFind2: " + TestUF(uf2, m) + " s");
+        int size = 10000000;
+        int m = 10000000;
+//        UnionFind1 uf1 = new UnionFind1(size);
+//        System.out.println("UUnionFind1: " + TestUF(uf1, m) + " s");
+//        UnionFind2 uf2 = new UnionFind2(size);
+//        System.out.println("UUnionFind2: " + TestUF(uf2, m) + " s");
         UnionFind3 uf3 = new UnionFind3(size);
         System.out.println("UUnionFind3: " + TestUF(uf3, m) + " s");
+        UnionFind4 uf4 = new UnionFind4(size);
+        System.out.println("UUnionFind4: " + TestUF(uf4, m) + " s");
     }
 }
