@@ -30,18 +30,69 @@ public class AVLTree<K extends Comparable<K>, V> {
         //更新height
         node.height = 1 + Math.max(getHeight(node.left), getHeight(node.right));
         //计算平衡因子
-        int balanceFactor = getBalanceFactor(node);
+        int balanceFactor = Math.abs(getBalanceFactor(node));
         if (balanceFactor > 1) {
             System.out.println("unbalanced:" + balanceFactor);
         }
+
+        // 平衡维护
+        if (balanceFactor > 1 && (getBalanceFactor(node.left) >= 0)) {
+            return rightRotate(node);
+        }
+        if ((balanceFactor < -1 && getBalanceFactor(node.right) <= 0)) {
+            return leftRotate(node);
+        }
+
         return node;
+    }
+
+    // 对节点y进行向右旋转操作，返回旋转后新的根节点x
+    //        y                              x
+    //       / \                           /   \
+    //      x   T4     向右旋转 (y)        z     y
+    //     / \       - - - - - - - ->    / \   / \
+    //    z   T3                       T1  T2 T3 T4
+    //   / \
+    // T1   T2
+    private Node rightRotate(Node y) {
+        Node x = y.left;
+        Node t3 = x.right;
+        x.right = y;
+        y.left = t3;
+
+        // 更新height
+        y.height = Math.max(getHeight(y.left), getHeight(y.right)) + 1;
+        x.height = Math.max(getHeight(x.left), getHeight(x.right)) + 1;
+
+        return x;
+    }
+
+    // 对节点y进行向左旋转操作，返回旋转后新的根节点x
+    //    y                             x
+    //  /  \                          /   \
+    // T1   x      向左旋转 (y)       y     z
+    //     / \   - - - - - - - ->   / \   / \
+    //   T2  z                     T1 T2 T3 T4
+    //      / \
+    //     T3 T4
+    private Node leftRotate(Node y) {
+        Node x = y.right;
+        Node t2 = x.left;
+        x.left = y;
+        y.right = t2;
+
+        // 更新height
+        y.height = Math.max(getHeight(y.left), getHeight(y.right)) + 1;
+        x.height = Math.max(getHeight(x.left), getHeight(x.right)) + 1;
+
+        return x;
     }
 
     private int getBalanceFactor(Node node) {
         if (node == null) {
             return 0;
         }
-        return Math.abs(getHeight(node.left) - getHeight(node.right));
+        return getHeight(node.left) - getHeight(node.right);
     }
 
     public V remove(K key) {
@@ -212,6 +263,15 @@ public class AVLTree<K extends Comparable<K>, V> {
     }
 
     public static void main(String[] args) {
+        AVLTree<Integer, Integer> tree = new AVLTree<>();
+        tree.add(5, 5);
+        tree.add(6, 6);
+        tree.add(7, 7);
+        tree.add(8, 8);
+        tree.add(9, 9);
+    }
+
+    public static void main2(String[] args) {
         System.out.println("Pride and Prejudice");
         ArrayList<String> words = new ArrayList<>();
 
