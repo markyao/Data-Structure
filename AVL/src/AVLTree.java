@@ -32,7 +32,7 @@ public class AVLTree<K extends Comparable<K>, V> {
         //计算平衡因子
         int balanceFactor = getBalanceFactor(node);
         if (balanceFactor > 1) {
-            System.out.println("unbalanced:"+ balanceFactor);
+            System.out.println("unbalanced:" + balanceFactor);
         }
         return node;
     }
@@ -143,6 +143,43 @@ public class AVLTree<K extends Comparable<K>, V> {
         return size == 0;
     }
 
+    public boolean isBST() {
+        ArrayList<K> keys = new ArrayList<>();
+        inOrder(root, keys);
+        for (int i = 1; i < keys.size(); i++) {
+            if (keys.get(i - 1).compareTo(keys.get(i)) > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isBalanced() {
+        return isBalanced(root);
+    }
+
+    private boolean isBalanced(Node node) {
+        if (node == null) {
+            return true;
+        }
+        int balancedFactor = getBalanceFactor(node);
+        if (balancedFactor > 1) {
+            return false;
+        }
+        return isBalanced(node.left) && isBalanced(node.right);
+    }
+
+
+    private void inOrder(Node node, ArrayList<K> keys) {
+        if (node == null) {
+            return;
+        }
+        inOrder(node.left, keys);
+        keys.add(node.key);
+        inOrder(node.right, keys);
+    }
+
+
     private Node getNode(Node node, K key) {
         if (node == null) {
             return null;
@@ -191,6 +228,8 @@ public class AVLTree<K extends Comparable<K>, V> {
             }
             System.out.println("Total different world:" + map.getSize());
             System.out.println("Frequency of PRIDE:" + map.get("pride"));
+            System.out.println("is BST:" + map.isBST());
+            System.out.println("is Balanced:" + map.isBalanced());
 
         }
     }
