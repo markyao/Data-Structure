@@ -30,23 +30,31 @@ public class AVLTree<K extends Comparable<K>, V> {
         //更新height
         node.height = 1 + Math.max(getHeight(node.left), getHeight(node.right));
         //计算平衡因子
-        int balanceFactor = Math.abs(getBalanceFactor(node));
-        if (balanceFactor > 1) {
-            System.out.println("unbalanced:" + balanceFactor);
-        }
-
+        int balanceFactor = getBalanceFactor(node);
         // 平衡维护
+        //LL
         if (balanceFactor > 1 && (getBalanceFactor(node.left) >= 0)) {
             return rightRotate(node);
         }
+        //LR
         if ((balanceFactor < -1 && getBalanceFactor(node.right) <= 0)) {
+            return leftRotate(node);
+        }
+        //lR
+        if (balanceFactor > 1 && (getBalanceFactor(node.left) < 0)) {
+            node.left = leftRotate(node.left);
+            return rightRotate(node);
+        }
+        //RL
+        if (balanceFactor < -1 && (getBalanceFactor(node.right) > 0)) {
+            node.right = rightRotate(node.right);
             return leftRotate(node);
         }
 
         return node;
     }
 
-    // 对节点y进行向右旋转操作，返回旋转后新的根节点x
+    // 对节点y进行向右旋转操作，返回旋转后新的根节点x(LL)
     //        y                              x
     //       / \                           /   \
     //      x   T4     向右旋转 (y)        z     y
@@ -67,7 +75,7 @@ public class AVLTree<K extends Comparable<K>, V> {
         return x;
     }
 
-    // 对节点y进行向左旋转操作，返回旋转后新的根节点x
+    // 对节点y进行向左旋转操作，返回旋转后新的根节点x(RR)
     //    y                             x
     //  /  \                          /   \
     // T1   x      向左旋转 (y)       y     z
@@ -262,16 +270,8 @@ public class AVLTree<K extends Comparable<K>, V> {
         }
     }
 
-    public static void main(String[] args) {
-        AVLTree<Integer, Integer> tree = new AVLTree<>();
-        tree.add(5, 5);
-        tree.add(6, 6);
-        tree.add(7, 7);
-        tree.add(8, 8);
-        tree.add(9, 9);
-    }
 
-    public static void main2(String[] args) {
+    public static void main(String[] args) {
         System.out.println("Pride and Prejudice");
         ArrayList<String> words = new ArrayList<>();
 
