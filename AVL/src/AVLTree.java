@@ -27,6 +27,10 @@ public class AVLTree<K extends Comparable<K>, V> {
         } else {
             node.value = value;
         }
+        return balance(node);
+    }
+
+    private Node balance(Node node) {
         //更新height
         node.height = 1 + Math.max(getHeight(node.left), getHeight(node.right));
         //计算平衡因子
@@ -50,7 +54,6 @@ public class AVLTree<K extends Comparable<K>, V> {
             node.right = rightRotate(node.right);
             return leftRotate(node);
         }
-
         return node;
     }
 
@@ -117,30 +120,44 @@ public class AVLTree<K extends Comparable<K>, V> {
             return null;
         }
 
+        Node retNode;
         if (key.compareTo(node.key) < 0) {
-            return getNode(node.left, key);
+            node.left = remove(node.left, key);
+            retNode = node;
         } else if (key.compareTo(node.key) > 0) {
-            return getNode(node.right, key);
+            node.right = remove(node.right, key);
+            retNode = node;
         } else {
+            //待删除节点左子树为空的情况
             if (node.left == null) {
                 Node nodeRight = node.right;
                 node.right = null;
                 size--;
-                return nodeRight;
+                retNode = nodeRight;
             }
-            if (node.right == null) {
+            //待删除节点右子树为空的情况
+            else if (node.right == null) {
                 Node nodeLeft = node.left;
                 node.left = null;
                 size--;
-                return nodeLeft;
+                retNode = nodeLeft;
+            } else {
+                // 待删除节点左右子树均不为空的情况
+                //找到比待删除节点大的最小节点，即待删除节点右子树待最小节点
+                //用这个节点顶替待删除节点的位置
+                Node successor = minimum(node.right);
+//                successor.right = removeMin(node.right);
+                successor.right = remove(node.right, successor.key);
+                successor.left = node.left;
+                node.left = node.right = null;
+                retNode = successor;
             }
-
-            Node s = minimum(node.right);
-            s.right = removeMin(node.right);
-            s.left = node.left;
-            node.left = node.right = null;
-            return s;
         }
+        if (retNode == null) {
+            return null;
+        }
+        return balance(retNode);
+
     }
 
     private int getHeight(Node node) {
@@ -270,12 +287,24 @@ public class AVLTree<K extends Comparable<K>, V> {
         }
     }
 
+    public static void main2(String[] args) {
+        AVLTree<Integer, Integer> tree = new AVLTree<>();
+        tree.add(6, 6);
+        tree.add(4, 4);
+        tree.add(8, 8);
+        tree.add(2, 2);
+        tree.add(5, 5);
+        tree.add(7, 7);
+        tree.add(9, 9);
+        tree.remove(2);
+        System.out.println(tree);
+    }
 
     public static void main(String[] args) {
         System.out.println("Pride and Prejudice");
         ArrayList<String> words = new ArrayList<>();
 
-        String filename = "D:\\Lab\\Data-Structure\\Map\\src\\pride-and-prejudice.txt";
+        String filename = "AVL/src/pride-and-prejudice.txt";
         if (FileOperation.readFile(filename, words)) {
             System.out.println("Total world:" + words.size());
             AVLTree<String, Integer> map = new AVLTree<>();
@@ -290,6 +319,13 @@ public class AVLTree<K extends Comparable<K>, V> {
             System.out.println("Frequency of PRIDE:" + map.get("pride"));
             System.out.println("is BST:" + map.isBST());
             System.out.println("is Balanced:" + map.isBalanced());
+
+            for (String word : words) {
+                map.remove(word);
+                if (!map.isBST() || !map.isBalanced()) {
+                    throw new RuntimeException("Error");
+                }
+            }
 
         }
     }
