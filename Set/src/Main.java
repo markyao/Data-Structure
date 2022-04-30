@@ -26,17 +26,20 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String filename = "D:\\Lab\\Data-Structure\\Set\\src\\pride-and-prejudice.txt";
+        String filename = "Set/src/pride-and-prejudice.txt";
 
         BstSet<String> bstSet = new BstSet<>();
         double time1 = testSet(bstSet, filename);
         System.out.println("BST Set: " + time1 + " s");
 
-        System.out.println();
-
         LinkedListSet<String> linkedListSet = new LinkedListSet<>();
         double time2 = testSet(linkedListSet, filename);
         System.out.println("Linked List Set: " + time2 + " s");
+
+        AVLSet<String> avlSet = new AVLSet<>();
+        double time3 = testSet(avlSet, filename);
+        System.out.println("AVLSet: " + time3 + " s");
+
 
     }
 }
