@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * @param <V>
  * @author yaotailin
  */
-public class RBT<K extends Comparable<K>, V> {
+public class RBTree<K extends Comparable<K>, V> {
 
     private static final boolean RED = true;
     private static final boolean BLACK = false;
@@ -15,13 +15,39 @@ public class RBT<K extends Comparable<K>, V> {
     private int size;
 
 
-    public RBT() {
+    public RBTree() {
         root = null;
         size = 0;
     }
 
+    // 判断节点node的颜色
+    private boolean isRed(Node node) {
+        if (node == null) {
+            return BLACK;
+        }
+        return node.color;
+    }
+
+    //   node                     x
+    //  /   \     左旋转         /  \
+    // T1   x   --------->   node   T3
+    //     / \              /   \
+    //    T2 T3            T1   T2
+    private Node leftRotate(Node node) {
+        Node x = node.right;
+
+        //左旋转
+        node.right = x.left;
+        x.left = node;
+
+        x.color = node.color;
+        node.color = RED;
+        return x;
+    }
+
     public void add(K key, V value) {
         root = add(root, key, value);
+        root.color = BLACK;
         size++;
     }
 
@@ -169,7 +195,7 @@ public class RBT<K extends Comparable<K>, V> {
         String filename = "D:\\Lab\\Data-Structure\\Map\\src\\pride-and-prejudice.txt";
         if (FileOperation.readFile(filename, words)) {
             System.out.println("Total world:" + words.size());
-            RBT<String, Integer> map = new RBT<>();
+            RBTree<String, Integer> map = new RBTree<>();
             for (String word : words) {
                 if (map.contains(word)) {
                     map.set(word, map.get(word) + 1);
