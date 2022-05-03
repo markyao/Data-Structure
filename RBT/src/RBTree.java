@@ -89,6 +89,17 @@ public class RBTree<K extends Comparable<K>, V> {
         } else {
             node.value = value;
         }
+
+        if(isRed(node.right) && !isRed(node.left)){
+            node = leftRotate(node);
+        }
+
+        if(isRed(node.left)  && isRed(node.left.left)){
+            node = rightRotate(node);
+        }
+        if(isRed(node.left) && isRed(node.right)){
+            flipColors(node);
+        }
         return node;
     }
 
