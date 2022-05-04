@@ -1,3 +1,6 @@
+/**
+ * @author yaotailin
+ */
 public class Solution387 {
 
     public int firstUniqChar(String s) {
