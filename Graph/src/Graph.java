@@ -8,12 +8,13 @@ import java.util.TreeSet;
  *
  * @author yaotailin
  */
-public class AdjSet {
+//暂时只支持无项无权图
+public class Graph {
     private int V;
     private int E;
     private TreeSet<Integer>[] data;
 
-    public AdjSet(String fileName) {
+    public Graph(String fileName) {
         File file = new File(fileName);
         try (Scanner scanner = new Scanner(file)) {
             V = scanner.nextInt();
@@ -96,7 +97,7 @@ public class AdjSet {
 
 
     public static void main(String[] args) {
-        AdjSet adjList = new AdjSet("D:\\Lab\\Data-Structure\\Graph\\g.txt");
+        Graph adjList = new Graph("D:\\Lab\\Data-Structure\\Graph\\g.txt");
         System.out.println(adjList);
 
     }
