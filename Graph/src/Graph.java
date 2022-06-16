@@ -5,10 +5,10 @@ import java.util.TreeSet;
 
 /**
  * 邻接矩阵
+ * 暂时只支持无向无权图
  *
  * @author yaotailin
  */
-//暂时只支持无项无权图
 public class Graph {
     private int V;
     private int E;
