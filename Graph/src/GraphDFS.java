@@ -15,13 +15,17 @@ public class GraphDFS {
         this.graph = graph;
         visited = new boolean[graph.V()];
         order = new ArrayList<>(graph.V());
-        dfs(0);
+        for (int v = 0; v < graph.V(); v++) {
+            if (!visited[v]) {
+                dfs(v);
+            }
+        }
     }
 
     private void dfs(int v) {
         visited[v] = true;
         order.add(v);
-        for (Integer w :  graph.adj(v)) {
+        for (Integer w : graph.adj(v)) {
             if (!visited[w]) {
                 dfs(w);
             }
