@@ -9,12 +9,14 @@ public class GraphDFS {
 
     private Graph graph;
     private boolean[] visited;
-    private ArrayList<Integer> order;
+    private ArrayList<Integer> pre;
+    private ArrayList<Integer> post;
 
     public GraphDFS(Graph graph) {
         this.graph = graph;
         visited = new boolean[graph.V()];
-        order = new ArrayList<>(graph.V());
+        pre = new ArrayList<>(graph.V());
+        post = new ArrayList<>(graph.V());
         for (int v = 0; v < graph.V(); v++) {
             if (!visited[v]) {
                 dfs(v);
@@ -24,21 +26,27 @@ public class GraphDFS {
 
     private void dfs(int v) {
         visited[v] = true;
-        order.add(v);
+        pre.add(v);
         for (Integer w : graph.adj(v)) {
             if (!visited[w]) {
                 dfs(w);
             }
         }
+        post.add(v);
     }
 
-    public Iterable<Integer> getOrder() {
-        return order;
+    public Iterable<Integer> getPreOrder() {
+        return pre;
+    }
+
+    public Iterable<Integer> getPostOrder() {
+        return post;
     }
 
     public static void main(String[] args) {
         Graph graph = new Graph("D:\\\\Lab\\\\Data-Structure\\\\Graph\\\\g.txt");
         GraphDFS graphDFS = new GraphDFS(graph);
-        System.out.println(graphDFS.getOrder());
+        System.out.println(graphDFS.getPreOrder());
+        System.out.println(graphDFS.getPostOrder());
     }
 }
