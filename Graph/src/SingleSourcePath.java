@@ -10,7 +10,6 @@ public class SingleSourcePath {
 
     private Graph graph;
     private int source;
-    private boolean[] visited;
     private int[] pre;
 
 
@@ -18,7 +17,6 @@ public class SingleSourcePath {
         graph.validateVertex(source);
         this.graph = graph;
         this.source = source;
-        visited = new boolean[graph.V()];
         pre = new int[graph.V()];
         for (int i = 0; i < pre.length; i++) {
             pre[i] = -1;
@@ -27,10 +25,9 @@ public class SingleSourcePath {
     }
 
     private void dfs(int v, int parent) {
-        visited[v] = true;
         pre[v] = parent;
         for (Integer w : graph.adj(v)) {
-            if (!visited[w]) {
+            if (pre[w] == -1) {
                 dfs(w, v);
             }
         }
@@ -38,7 +35,7 @@ public class SingleSourcePath {
 
     public boolean isConnected(int t) {
         graph.validateVertex(t);
-        return visited[t];
+        return pre[t] != -1;
     }
 
     public Iterable<Integer> path(int t) {
