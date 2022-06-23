@@ -15,23 +15,36 @@ public class CycleDetection {
         visited = new boolean[graph.V()];
         for (int v = 0; v < graph.V(); v++) {
             if (!visited[v]) {
-                dfs(v, v);
+                if (dfs(v, v)) {
+                    hasCycle=true;
+                    break;
+                }
             }
         }
     }
 
-    private void dfs(int v, int parent) {
+    /**
+     * 从顶点V开始，判断图中是否有环
+     *
+     * @param v
+     * @param parent
+     * @return
+     */
+    private boolean dfs(int v, int parent) {
         visited[v] = true;
         for (Integer w : graph.adj(v)) {
             if (!visited[w]) {
-                dfs(w, v);
+                if (dfs(w, v)) {
+                    return true;
+                }
             } else if (w != parent) {
-                hasCycle = true;
+                return true;
             }
         }
+        return false;
     }
 
-    public boolean hasCycle(){
+    public boolean hasCycle() {
         return hasCycle;
     }
 
