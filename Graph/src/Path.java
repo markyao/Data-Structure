@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * 图深度优先遍历
+ * 图的所有路径（深度优先）
  *
  * @author yaotailin
  */
