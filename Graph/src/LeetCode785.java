@@ -32,7 +32,7 @@ public class LeetCode785 {
                 return false;
             }
         }
-        return false;
+        return true;
     }
 
     public static void main(String[] args) {
