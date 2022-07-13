@@ -45,8 +45,18 @@ public class LeetCode695_2 {
                 res += dfs(nextX, nextY);
             }
         }
+
         return res;
     }
+    /*假設MAX_X與MAX_Y是圖片的寬跟高*/
+//    void flood_fill(int x, int y, int color)
+//    {
+//        area[x][y] = color;
+//        if(x > 0 && area[x-1][y] == 0) flood_fill(x - 1, y, color);
+//        if(y > 0 && area[x][y-1] == 0) flood_fill(x, y - 1, color);
+//        if(x < MAX_X && area[x+1][y] == 0) flood_fill(x + 1, y, color);
+//        if(y < MAX_Y && area[x][y+1] == 0) flood_fill(x, y + 1, color);
+//    }
     private boolean inArea(int x, int y) {
         return x >= 0 && x < R && y >= 0 && y < C;
     }
