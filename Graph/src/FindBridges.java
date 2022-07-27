@@ -50,21 +50,25 @@ public class FindBridges {
 
     public static void main(String[] args) {
         String path = "D:/Lab/Data-Structure/Graph/bridge/";
-
-        Graph g = new Graph(path + "g.txt");
-        FindBridges fb = new FindBridges(g);
-        System.out.println("Bridges in g : " + fb.result());
-
-        Graph g2 = new Graph(path + "g2.txt");
-        FindBridges fb2 = new FindBridges(g2);
-        System.out.println("Bridges in g2 : " + fb2.result());
 //
-        Graph g3 = new Graph(path + "g3.txt");
-        FindBridges fb3 = new FindBridges(g3);
-        System.out.println("Bridges in g3 : " + fb3.result());
+//        Graph g = new Graph(path + "g.txt");
+//        FindBridges fb = new FindBridges(g);
+//        System.out.println("Bridges in g : " + fb.result());
+//
+//        Graph g2 = new Graph(path + "g2.txt");
+//        FindBridges fb2 = new FindBridges(g2);
+//        System.out.println("Bridges in g2 : " + fb2.result());
+////
+//        Graph g3 = new Graph(path + "g3.txt");
+//        FindBridges fb3 = new FindBridges(g3);
+//        System.out.println("Bridges in g3 : " + fb3.result());
+//
+//        Graph tree = new Graph(path + "tree.txt");
+//        FindBridges fb_tree = new FindBridges(tree);
+//        System.out.println("Bridges in tree : " + fb_tree.result());
 
-        Graph tree = new Graph(path + "tree.txt");
-        FindBridges fb_tree = new FindBridges(tree);
-        System.out.println("Bridges in tree : " + fb_tree.result());
+        Graph tree2 = new Graph(path + "tree2.txt");
+        FindBridges fb_tree2 = new FindBridges(tree2);
+        System.out.println("Bridges in tree2 : " + fb_tree2.result());
     }
 }
