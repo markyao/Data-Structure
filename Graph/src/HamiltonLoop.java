@@ -13,32 +13,25 @@ public class HamiltonLoop {
         visited = new boolean[graph.V()];
         pre = new int[graph.V()];
         end = -1;
-        dfs(0, 0);
+        dfs(0, 0, graph.V());
     }
 
-    private boolean dfs(int v, int parent) {
+    private boolean dfs(int v, int parent, int left) {
         visited[v] = true;
         pre[v] = parent;
+        left--;
         for (Integer w : graph.adj(v)) {
             if (!visited[w]) {
-                if (dfs(w, v)) {
+                if (dfs(w, v, left)) {
                     return true;
                 }
-            } else if (w == 0 && allVisited()) {
+            } else if (w == 0 && left == 0) {
                 end = v;
                 return true;
             }
         }
         visited[v] = false;
         return false;
-    }
-
-    private boolean allVisited() {
-        for (int v = 0; v < graph.V(); v++)
-            if (!visited[v]) {
-                return false;
-            }
-        return true;
     }
 
 
