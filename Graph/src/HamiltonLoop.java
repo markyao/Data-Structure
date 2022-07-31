@@ -20,14 +20,15 @@ public class HamiltonLoop {
         visited[v] = true;
         pre[v] = parent;
         left--;
+        if (left == 0 && graph.hasEdge(v, 0)) {
+            end = v;
+            return true;
+        }
         for (Integer w : graph.adj(v)) {
             if (!visited[w]) {
                 if (dfs(w, v, left)) {
                     return true;
                 }
-            } else if (w == 0 && left == 0) {
-                end = v;
-                return true;
             }
         }
         visited[v] = false;
