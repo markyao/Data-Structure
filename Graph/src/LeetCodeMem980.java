@@ -1,23 +1,28 @@
+import java.util.Arrays;
+
 /**
- * 哈密顿路径相关问题
+ * 哈密顿路径相关问题(记忆化搜索)
  * <p>
  * 不同路径 III
  */
-public class LeetCode980 {
+public class LeetCodeMem980 {
 
     private int[][] dirs = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
     private int[][] grid;
     private int R, C;
-    private boolean[][] visited;
     private int start, end;
+    private int[][] memo;
 
     public int uniquePathsIII(int[][] grid) {
         this.grid = grid;
         R = grid.length;
         C = grid[0].length;
-        visited = new boolean[R][C];
         int left = R * C;
+        memo = new int[1 << (R * C)][R * C];
 
+        for (int i = 0; i < memo.length; i++) {
+            Arrays.fill(memo[i], -1);
+        }
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 if (grid[i][j] == 1) {
@@ -31,26 +36,33 @@ public class LeetCode980 {
                 }
             }
         }
-        return dfs(start, left);
+        int visited = 0;
+        return dfs(visited, start, left);
     }
 
-    private int dfs(int v, int left) {
-        int x = v / C, y = v % C;
-        visited[x][y] = true;
+    private int dfs(int visited, int v, int left) {
+        if (memo[visited][v] != -1)
+            return memo[visited][v];
+
+        visited += (1 << v);
         left--;
-        if (left == 0 && v == end) {
-            visited[x][y] = false;
+        if (v == end && left == 0) {
+            visited -= (1 << v);
+            memo[visited][v] = 1;
             return 1;
         }
 
+        int x = v / C, y = v % C;
         int res = 0;
-        for (int d = 0; d < dirs.length; d++) {
+        for (int d = 0; d < 4; d++) {
             int nextx = x + dirs[d][0], nexty = y + dirs[d][1];
-            if (inArea(nextx, nexty) && grid[nextx][nexty] != -1 && !visited[nextx][nexty]) {
-                res += dfs(nextx * C + nexty, left);
-            }
+            int next = nextx * C + nexty;
+            if (inArea(nextx, nexty) && grid[nextx][nexty] == 0 && (visited & (1 << next)) == 0)
+                res += dfs(visited, next, left);
         }
-        visited[x][y] = false;
+
+        visited -= (1 << v);
+        memo[visited][v] = res;
         return res;
     }
     // [[1,0,0,0],
@@ -62,7 +74,7 @@ public class LeetCode980 {
     }
 
     public static void main(String[] args) {
-        LeetCode980 leetCode980 = new LeetCode980();
+        LeetCodeMem980 leetCode980 = new LeetCodeMem980();
         int[][] grid1 = {
                 {1, 0, 0, 0},
                 {0, 0, 0, 0},
