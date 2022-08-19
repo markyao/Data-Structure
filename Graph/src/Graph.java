@@ -9,7 +9,7 @@ import java.util.TreeSet;
  *
  * @author yaotailin
  */
-public class Graph {
+public class Graph implements Cloneable {
     private int V;
     private int E;
     private TreeSet<Integer>[] data;
@@ -71,6 +71,16 @@ public class Graph {
         return data[v].contains(w);
     }
 
+    public void removeEdge(int v, int w) {
+        validateVertex(v);
+        validateVertex(w);
+        if (data[v].contains(w)) {
+            E--;
+            data[v].remove(w);
+            data[w].remove(v);
+        }
+    }
+
     public Iterable<Integer> adj(int v) {
         validateVertex(v);
         return data[v];
@@ -82,15 +92,34 @@ public class Graph {
     }
 
     @Override
+    public Object clone() {
+
+        try {
+            Graph cloned = (Graph) super.clone();
+            cloned.data = new TreeSet[V];
+            for (int v = 0; v < V; v++) {
+                cloned.data[v] = new TreeSet<Integer>();
+                for (int w : data[v])
+                    cloned.data[v].add(w);
+            }
+            return cloned;
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+
         sb.append(String.format("V = %d, E = %d\n", V, E));
         for (int v = 0; v < V; v++) {
-            sb.append(String.format("%d: ", v));
-            for (int w : data[v]) {
+            sb.append(String.format("%d : ", v));
+            for (int w : data[v])
                 sb.append(String.format("%d ", w));
-            }
-            sb.append("\n");
+            sb.append('\n');
         }
         return sb.toString();
     }
