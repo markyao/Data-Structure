@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
 
@@ -99,8 +100,9 @@ public class WeightedGraph {
         sb.append(String.format("V = %d, E = %d\n", V, E));
         for (int v = 0; v < V; v++) {
             sb.append(String.format("%d : ", v));
-            for (int w : adj[v].keySet())
-                sb.append(String.format("%d ", w));
+            for (Map.Entry<Integer, Integer> entry : adj[v].entrySet()) {
+                sb.append(String.format("(%d：%d)", entry.getKey(), entry.getValue()));
+            }
             sb.append('\n');
         }
         return sb.toString();
