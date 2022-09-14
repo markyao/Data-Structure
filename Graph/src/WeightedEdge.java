@@ -16,6 +16,10 @@ public class WeightedEdge implements Comparable<WeightedEdge> {
         return w;
     }
 
+    public int getWeight(){
+        return weight;
+    }
+
     @Override
     public int compareTo(WeightedEdge o) {
         return weight - o.weight;
