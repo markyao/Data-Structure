@@ -1,6 +1,4 @@
-import java.util.Arrays;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * 最短距离算法 dijkstra
@@ -11,6 +9,7 @@ public class Dijkstra2 {
     private int s;
     private int[] dis;
     private boolean[] visited;
+    private int[] pre;
 
     private class Node implements Comparable<Node> {
         public int v, dis;
@@ -35,6 +34,8 @@ public class Dijkstra2 {
         Arrays.fill(dis, Integer.MAX_VALUE);
         dis[s] = 0;
         visited = new boolean[G.V()];
+        pre = new int[G.V()];
+        Arrays.fill(pre, -1);
 
         Queue<Node> pq = new PriorityQueue<>();
         pq.add(new Node(s, 0));
@@ -50,6 +51,7 @@ public class Dijkstra2 {
                     if (dis[cur] + G.weight(cur, w) < dis[w]) {
                         dis[w] = dis[cur] + G.weight(cur, w);
                         pq.add(new Node(w, dis[w]));
+                        pre[w] = cur;
                     }
                 }
             }
@@ -79,6 +81,21 @@ public class Dijkstra2 {
         return dis[v];
     }
 
+    public Iterable<Integer> path(int t) {
+        ArrayList<Integer> res = new ArrayList<>();
+        if (!isConnectedTo(t)) {
+            return res;
+        }
+        int cur = t;
+        while (cur != s) {
+            res.add(cur);
+            cur = pre[cur];
+        }
+        res.add(s);
+        Collections.reverse(res);
+        return res;
+    }
+
     public static void main(String[] args) {
         String path = "/Users/yaotailin/IdeaProjects/Lab/Data-Structure/Graph/dijkstra/";
         WeightedGraph g = new WeightedGraph(path + "g.txt");
@@ -86,5 +103,7 @@ public class Dijkstra2 {
         for (int v = 0; v < g.V(); v++) {
             System.out.print(dijkstra.disTo(v) + " ");
         }
+        System.out.println();
+        System.out.println(dijkstra.path(3));
     }
 }
