@@ -6,7 +6,7 @@ import java.util.TreeMap;
 
 /**
  * 邻接矩阵
- * 暂时只支持无向带权图
+ * 带权图（支持有向，无向）
  *
  * @author yaotailin
  */
@@ -14,8 +14,14 @@ public class WeightedGraph {
     private int V;
     private int E;
     private TreeMap<Integer, Integer>[] adj;
+    private boolean directed;
 
     public WeightedGraph(String fileName) {
+        this(fileName, false);
+    }
+
+    public WeightedGraph(String fileName, boolean directed) {
+        this.directed = directed;
         File file = new File(fileName);
         try (Scanner scanner = new Scanner(file)) {
             V = scanner.nextInt();
@@ -47,11 +53,17 @@ public class WeightedGraph {
                     throw new IllegalArgumentException("Parallel  Edges are Detected");
                 }
                 adj[a].put(b, weight);
-                adj[b].put(a, weight);
+                if (!directed) {
+                    adj[b].put(a, weight);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isDirected() {
+        return directed;
     }
 
     public void validateVertex(int v) {
@@ -97,7 +109,7 @@ public class WeightedGraph {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(String.format("V = %d, E = %d\n", V, E));
+        sb.append(String.format("V = %d, E = %d directed=%b\n", V, E, directed));
         for (int v = 0; v < V; v++) {
             sb.append(String.format("%d : ", v));
             for (Map.Entry<Integer, Integer> entry : adj[v].entrySet()) {
@@ -110,8 +122,9 @@ public class WeightedGraph {
 
 
     public static void main(String[] args) {
-        WeightedGraph adjList = new WeightedGraph("D:\\Lab\\Data-Structure\\Graph\\weight\\g.txt");
-        System.out.println(adjList);
+        String path = "/Users/yaotailin/IdeaProjects/Lab/Data-Structure/Graph/graph/";
+        WeightedGraph wg = new WeightedGraph(path + "wg.txt", true);
+        System.out.println(wg);
 
     }
 }

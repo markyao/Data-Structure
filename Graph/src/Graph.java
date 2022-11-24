@@ -5,7 +5,7 @@ import java.util.TreeSet;
 
 /**
  * 邻接矩阵
- * 暂时只支持无向无权图
+ * 无权图（支持有向，无向）
  *
  * @author yaotailin
  */
@@ -13,8 +13,14 @@ public class Graph implements Cloneable {
     private int V;
     private int E;
     private TreeSet<Integer>[] data;
+    private boolean directed;
 
     public Graph(String fileName) {
+        this(fileName, false);
+    }
+
+    public Graph(String fileName, boolean directed) {
+        this.directed = directed;
         File file = new File(fileName);
         try (Scanner scanner = new Scanner(file)) {
             V = scanner.nextInt();
@@ -44,11 +50,17 @@ public class Graph implements Cloneable {
                     throw new IllegalArgumentException("Parallel  Edges are Detected");
                 }
                 data[a].add(b);
-                data[b].add(a);
+                if(!directed) {
+                    data[b].add(a);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isDirected(){
+        return directed;
     }
 
     public void validateVertex(int v) {
@@ -77,7 +89,9 @@ public class Graph implements Cloneable {
         if (data[v].contains(w)) {
             E--;
             data[v].remove(w);
-            data[w].remove(v);
+            if(!directed) {
+                data[w].remove(v);
+            }
         }
     }
 
@@ -114,7 +128,7 @@ public class Graph implements Cloneable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(String.format("V = %d, E = %d\n", V, E));
+        sb.append(String.format("V = %d, E = %d directed =%b\n", V, E, directed));
         for (int v = 0; v < V; v++) {
             sb.append(String.format("%d : ", v));
             for (int w : data[v])
@@ -126,8 +140,9 @@ public class Graph implements Cloneable {
 
 
     public static void main(String[] args) {
-        Graph adjList = new Graph("D:\\Lab\\Data-Structure\\Graph\\g.txt");
-        System.out.println(adjList);
+        String path = "/Users/yaotailin/IdeaProjects/Lab/Data-Structure/Graph/graph/";
+        Graph graph = new Graph(path + "ug.txt",true);
+        System.out.println(graph);
 
     }
 }
